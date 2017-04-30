@@ -169,7 +169,7 @@ void print_trajectory_k(const double pos[3], const double theta[3], const double
 
   //print just values
   fprintf(stdout,"%f %f %f %f %f %f\n",theta[0], theta[1], theta[2], theta_dot[0], theta_dot[1], theta_dot[2]);
-  fprintf(ofp,"%f %f %f %f %f %f\n",theta[0], theta[1], theta[2], theta_dot[0], theta_dot[1], theta_dot[2]);
+  fprintf(ofp,"[%f, %f, %f, %f, %f, %f]\n",theta[0], theta[1], theta[2], theta_dot[0], theta_dot[1], theta_dot[2]);
 }
 
 void calculate_trajectory(const int n, const double start[3], const double end[3], FILE *ofp){

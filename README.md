@@ -16,3 +16,12 @@ end=[5,5,0]
 2) Call the executable with the input file and output file name as the first and second arguments. The output trajectory will be written to the output file:
 
 ./Calc_Trajectory input.txt output.txt
+
+## Running the trajectory generator with plotting
+You can also run and plot c file and plot the results using the following python command. The python file can be edited to plot different trajectories:
+
+python plot_trajectory.py
+
+Python dependencies:
+matplotlib
+numpy
