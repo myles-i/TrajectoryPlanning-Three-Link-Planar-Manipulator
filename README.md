@@ -9,9 +9,10 @@ gcc -o Calc_Trajectory Calc_Trajectory.c
 
 ## Running the trajectory generator
 To calculate a trajectory:
-1) Specify the number of points, start position [x,y,phi], and end position [x,y,phi] in an input file with the following format:
+1) Specify the number of points, slew_time (seconds), start position [x,y,phi], and end position [x,y,phi] in an input file with the following format:
 
 n=10
+slew_time=2
 start=[3,3,0]
 end=[5,5,0]
 

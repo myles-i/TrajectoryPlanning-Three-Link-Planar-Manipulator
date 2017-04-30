@@ -7,7 +7,6 @@
 
 
 // Direct inverse of a 3x3 matrix m
-
 void mat3x3_inv(double minv[3][3], const double m[3][3])
 
 {
@@ -36,7 +35,6 @@ void mat3x3_inv(double minv[3][3], const double m[3][3])
 }
 
 /* Explicit 3x3 matrix * vector. b = A x where A is 3x3 */
-
 void mat3x3_vec_mult(double b[3], const double A[3][3], const double x[3]){
   const int N = 3;
   int idx, jdx;
@@ -71,6 +69,9 @@ double vec3_mag(double a[3]){
   return sqrt(a[0]*a[0] + a[1]*a[1] + a[2]*a[2]);
 }
 
+
+/* Calculates the jacobian of the manipulator relating joint angular
+velocities to cartesian translational and manipulator angle velocities*/
 void calculate_jacobian(double J[3][3], const double theta[3]){
   //precalculate some values
   double S12 =  sin(theta[0] + theta[1]);
@@ -92,6 +93,12 @@ void calculate_jacobian(double J[3][3], const double theta[3]){
   J[2][2] = 1;
 }
 
+
+/* This function computes the forward kinematics of the 3D manipulator
+- Output location: is the position in cartesian coordinates [x,y,alpha] where alpha
+  is the manipulator orientation measured from x axis, and
+- Input theta: The joint angles that would result in the specified location
+  of the actuator*/ 
 void forward_kinematics(double location[3], const double theta[3]){
   location[0] = L1*cos(theta[0]) + L2*cos(theta[0] + theta[1]) + L3*cos(theta[0] + theta[1] + theta[2]);
   location[1] = L1*sin(theta[0]) + L2*sin(theta[0] + theta[1]) + L3*sin(theta[0] + theta[1] + theta[2]);
@@ -99,13 +106,11 @@ void forward_kinematics(double location[3], const double theta[3]){
 }
 
 
-// }
-
-  /* This function computes the inverse kinematics of the 3D manipulator
-  - Input p: is the position in cartesian coordinates [x,y,alpha] where alpha
-    is the manipulator orientation measured from x axis, and
-  - Output theta: The joint angles that would result in the p position
-    of the actuator*/ 
+/* This function computes the inverse kinematics of the 3D manipulator
+- Input p: is the position in cartesian coordinates [x,y,alpha] where alpha
+  is the manipulator orientation measured from x axis, and
+- Output theta: The joint angles that would result in the p position
+  of the actuator*/ 
 void inverse_kinematics_anal(double theta[3], const double p[3]){
 
   // Compute joint 2 location and angles
@@ -135,6 +140,7 @@ void inverse_kinematics_anal(double theta[3], const double p[3]){
 
 }
 
+/* This function prints the trajectory data for a single timestep to an output file, and to the screen*/
 void print_trajectory_k(const double pos[3], const double theta[3], const double theta_dot[3],const int idx, FILE *ofp){
   // //print output with descriptive text to file
   // fprintf(ofp,"Timestep %i:\n",idx);
@@ -148,6 +154,10 @@ void print_trajectory_k(const double pos[3], const double theta[3], const double
   fprintf(ofp,"[%f, %f, %f, %f, %f, %f]\n",theta[0], theta[1], theta[2], theta_dot[0], theta_dot[1], theta_dot[2]);
 }
 
+
+/* This function calculates the joint angle/velocity trajectory between 
+a start and ending point in specified in cartesion coordinates and manipulator angles.
+*/
 void calculate_trajectory(const int n, const double slew_time, const double start[3], const double end[3], FILE *ofp){
   /* Declare Variables*/
   const int N = 3;
@@ -189,7 +199,10 @@ void calculate_trajectory(const int n, const double slew_time, const double star
 
 }
 
-
+/* The main files reads in the parameters from the input file, and calls generate_trajectory
+to generate the trajectory based on the inputs. See the project README for how to 
+format the input file. Both an input file and an output file need to be specified when
+calling the program. Example: ./Calc_Trajectory input.txt output.txt */
 void main(int argc, char *argv[]){
   
   /* Check to make sure input and output files are specified*/
@@ -233,7 +246,4 @@ void main(int argc, char *argv[]){
 
   calculate_trajectory(n,slew_time, start, end, ofp);
   fclose(ofp);
-
 }
-
-
