@@ -94,7 +94,6 @@ double vec3_mag(double a[3]){
   return sqrt(a[0]*a[0] + a[1]*a[1] + a[2]*a[2]);
 }
 
-
 void calculate_jacobian(double J[3][3], const double theta[3]){
   //precalculate some values
   double S12 =  sin(theta[0] + theta[1]);
@@ -137,8 +136,8 @@ void inverse_kinematics_anal(double theta[3], const double p[3]){
   double y2 = p[1] - L3*sin(p[2]); //y position of joint 2
 
   //TODO: consider adding divide by zero protection here
-  double beta = atan(y2/x2);// angle to joint to from x axis
-  
+  //TODO consider wrapping angle to between -PI and PI
+  double beta = atan2(y2,x2);// angle to joint to from x axis
   // Precompute some values
   double r2_sqrd = x2*x2 + y2*y2;
   double r2 = sqrt(r2_sqrd); //distance of joint 2 from origin
