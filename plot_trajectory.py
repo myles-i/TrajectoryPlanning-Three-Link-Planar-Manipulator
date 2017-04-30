@@ -5,17 +5,23 @@ from subprocess import call
 
 # Trajectory Parameters
 
-
+# ##Trajectory 1
 # n     = 10 # number of points
 # slew_time = 2
 # start = [3,3,0] #[x,y,alpha]
 # end   = [5,5,0] #[x,y,alpha]
 
+# Trajectory 2
 n     = 5 # number of points
 slew_time = 2
 start = [5,6,0] #[x,y,alpha]
 end   = [-2,4,-pi/2] #[x,y,alpha]
 
+##Trajectory  out of bounds
+# n     = 10 # number of points
+# slew_time = 2
+# start = [3,3,0] #[x,y,alpha]
+# end   = [20,5,0] #[x,y,alpha]
 
 # Write to input file
 Fw = open("input.txt","w")

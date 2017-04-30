@@ -177,24 +177,30 @@ void calculate_trajectory(const int n, const double slew_time, const double star
   }
 
   for (int idx=0; idx<n; idx++){
+    // Check if position is unreachable
+      if (vec3_mag(pos) > (L1 + L2 + L3)) {
+        //TODO add error code
+        fprintf(stderr, "Error: position [%f, %f, %f] is unreachable\n",pos[0],pos[1],pos[2]);
+        fprintf(ofp, "Error: position [%f, %f, %f] is unreachable\n",pos[0],pos[1],pos[2]);
+      }
+      else{
+        // Compute theta angles for this position
+        inverse_kinematics_anal(theta,pos);
 
-    // Compute theta angles for this position
-    inverse_kinematics_anal(theta,pos);
+        // Compute Jacobian and inverse
+        calculate_jacobian(J, theta);
+        mat3x3_inv(J_inv,J);
 
-    // Compute Jacobian and inverse
-    calculate_jacobian(J, theta);
-    mat3x3_inv(J_inv,J);
+        //Compute theta dot from jacobian i
+        // TODO: Add protection for when jacobian approaches singularity
+        // At minimum, limit rate output, but can get much fancier.
+        mat3x3_vec_mult(theta_dot,J_inv,velocity);
 
-    //Compute theta dot from jacobian i
-    // TODO: Add protection for when jacobian approaches singularity
-    // At minimum, limit rate output, but can get much fancier.
-    mat3x3_vec_mult(theta_dot,J_inv,velocity);
-
-    //Print results for previous timestep
-    print_trajectory_k(pos, theta, theta_dot,idx, ofp);
-
-    // Compute next position
-    vec3_add(pos,pos,delta);
+        //Print results for previous timestep
+        print_trajectory_k(pos, theta, theta_dot,idx, ofp);
+      }
+      // Compute next position
+      vec3_add(pos,pos,delta);
   }
 
 }
