@@ -16,6 +16,10 @@ void mat3x3_inv(double minv[3][3], const double m[3][3])
 
   double invdet;
 
+  /*TODO: determinant has closed for solution (L1*L2*sin(Theta2))
+  Is the sin function faster than arithmetic below? Probably not 
+  but worth looking into*/
+
   det = m[0][0] * (m[1][1] * m[2][2] - m[2][1] * m[1][2]) -
 
   m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) +
@@ -196,6 +200,8 @@ void calculate_trajectory(const int n, const double start[3], const double end[3
     mat3x3_inv(J_inv,J);
 
     //Compute theta dot from jacobian i
+    // TODO: Add protection for when jacobian approaches singularity
+    // At minimum, limit rate output, but can get much fancier.
     mat3x3_vec_mult(theta_dot,J_inv,delta);
 
     //Print results for previous timestep

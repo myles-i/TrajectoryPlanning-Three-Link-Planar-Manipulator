@@ -1,4 +1,6 @@
 # TrajectoryPlanning-Three-Link-Planar-Manipulator
+This project computes trajectories for a three linkage, planar robot given a starting cartesian position and manipulator orientation [x,y,alpha] and an ending position/orientation. The computed trajectory moves the manipulator from the starting to ending position at constant speed (in x,y and alpha), and provides each of the link angles and speeds a "n" (n is specified) points throughout the trajectory. Outputs are printed to an output file, and to the screen in the following format:
+[Theta1, Theta2, Theta3, dTheta1/dt, dTheta2/dt, dTheta3/dt]
 
 ## Building Project
 The project can be built using the gcc compiler as follows:
@@ -18,7 +20,7 @@ end=[5,5,0]
 ./Calc_Trajectory input.txt output.txt
 
 ## Running the trajectory generator with plotting
-You can also run and plot c file and plot the results using the following python command. The python file can be edited to plot different trajectories:
+You can also run and plot c file and plot the results using the following python command.  assumes the executable has already been created with name "Calc_Trajectory". The python file can be edited to plot different trajectories:
 
 python plot_trajectory.py
 
