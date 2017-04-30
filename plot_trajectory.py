@@ -4,11 +4,15 @@ from math import *
 from subprocess import call
 
 # Trajectory Parameters
+
+
 # n     = 10 # number of points
+# slew_time = 2
 # start = [3,3,0] #[x,y,alpha]
 # end   = [5,5,0] #[x,y,alpha]
 
 n     = 5 # number of points
+slew_time = 2
 start = [5,6,0] #[x,y,alpha]
 end   = [-2,4,-pi/2] #[x,y,alpha]
 
@@ -16,6 +20,7 @@ end   = [-2,4,-pi/2] #[x,y,alpha]
 # Write to input file
 Fw = open("input.txt","w")
 Fw.writelines('n=' + str(n) + '\n')
+Fw.writelines('slew_time=' + str(slew_time) + '\n')
 Fw.writelines('start=' + str(start) + '\n')
 Fw.writelines('end=' + str(end) + '\n')
 Fw.close()
@@ -27,6 +32,7 @@ call(["./Calc_Trajectory", "input.txt","output.txt"])
 F = open("output.txt","r")
 print(F.readline())
 # Get trajectory parameters
+exec(F.readline())
 exec(F.readline())
 exec(F.readline())
 exec(F.readline())
